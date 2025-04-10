@@ -1,0 +1,30 @@
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+)
+
+// AttachedProbes 定义与 JSON 数据结构匹配的结构体
+type AttachedProbes struct {
+    Type string `json:"type"`
+    Data struct {
+        Probes int `json:"probes"`
+    } `json:"data"`
+}
+
+func main() {
+    jsonData := `{"type": "attached_probes", "data": {"probes": 5}}`
+    var ap AttachedProbes
+
+    // 解析 JSON 数据
+    err := json.Unmarshal([]byte(jsonData), &ap)
+    if err != nil {
+        fmt.Println("解析 JSON 时出错:", err)
+        return
+    }
+
+    // 输出 probes 的值
+    fmt.Println("probes 的值是:", ap.Data.Probes)
+}
+    

@@ -1,0 +1,30 @@
+#include <linux/sched.h>    
+BEGIN
+{
+    printf("Tracing CPU scheduler... Hit Ctrl-C to end.\n");
+}
+
+t:sched:sched_wakeup,
+t:sched:sched_wakeup_new
+{
+    @qtime[args->pid] = nsecs;
+}
+
+t:sched:sched_switch
+{
+    if (args->prev_state == TASK_RUNNING) {
+        @qtime[args->prev_pid] = nsecs; //存储前一个运行task的pid时间
+    }
+
+    $ns = @qtime[args->next_pid];
+    if($ns) {
+        //微妙/1000 转换成毫秒
+        @usecs = hist((nsecs - $ns) / 1000);
+    }
+    delete(@qtime[args->next_pid]);
+}
+
+END
+{
+    clear(@qtime);
+}

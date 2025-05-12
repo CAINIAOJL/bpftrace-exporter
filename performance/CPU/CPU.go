@@ -9,7 +9,8 @@ import (
 	"strings"
 	"sync"
 	"time"
-
+	"fmt"
+	"os"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -81,6 +82,117 @@ type S_Sar_Exporter struct {
 	sarpath          string
 }
 
+type Schedstat_Exporter struct {
+	mu               sync.RWMutex
+	schedstatUsage   *prometheus.GaugeVec
+	comm             string
+	pid              int64
+}
+
+func PidToComm (pid int64) (string, error) {
+	cmd := exec.Command("cat", "/proc/" + strconv.Itoa(int(pid)) + "/comm")
+	defer func() {
+		if cmd.Process != nil {
+			cmd.Process.Kill()
+		}
+	}()
+	
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Printf("error when find comm for pid = %d", pid)
+		return "", err
+	}
+
+	return strings.TrimSpace(string(out)), nil
+}
+
+func Schedstat_NewExporter(pid int64) *Schedstat_Exporter {
+	comm, err := PidToComm(pid)
+	if err != nil || comm == "" {
+		return nil
+	}
+
+	exporter := &Schedstat_Exporter{
+		comm: comm,
+		pid: pid,
+		schedstatUsage: prometheus.NewGaugeVec(
+			prometheus.GaugeOpts{
+				Name: "cainiao_schedstat_usage_"+comm,
+				Help: "schedstat usage percentage of %s" + comm,
+			},
+			[]string{"pid","mode"},
+		),
+	}
+
+	go exporter.startCollector()
+	return exporter
+}
+
+func (e *Schedstat_Exporter) startCollector() {
+	ticker := time.NewTicker(1 * time.Second) //定时器
+	defer ticker.Stop()
+
+	for range ticker.C{
+		e.collectMetrics()
+	}
+}
+
+func (e *Schedstat_Exporter) collectMetrics() {
+	taskDir := fmt.Sprintf("/proc/%d/task", e.pid)
+    entries, err := os.ReadDir(taskDir)
+    if err != nil {
+		log.Printf("error when read task directory %s: %v", taskDir, err)
+        return
+    }
+
+	//dir := strings.Fields(string(output))
+
+	for _, dirname := range entries {
+		cmd := exec.Command("cat", "/proc/"+strconv.Itoa(int(e.pid))+"/task/"+dirname.Name()+"/schedstat")
+		defer func() {
+			if cmd.Process != nil {
+				cmd.Process.Kill()
+			}
+		}()
+
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			log.Printf("error when get %s: %v",out, err)
+			return
+		}
+
+		lines := strings.Fields(string(out))
+
+		var mp = map[int]string {
+			0: "cpu_on_cpu",
+			1: "run_queue",
+			2: "run_on_cpu",
+		}
+		e.mu.Lock()
+		for i, line := range lines {
+			if line != "" {
+				value, err := strconv.ParseInt(line, 10, 64)
+				if err != nil {
+					log.Printf("error when parsing value: %v", err)
+					return
+				}
+				e.schedstatUsage.WithLabelValues(dirname.Name(), mp[i]).Set(float64(value))
+			}
+		}
+		e.mu.Unlock()
+	}
+}	
+
+func (e * Schedstat_Exporter) Describe(ch chan<- *prometheus.Desc) {
+	e.schedstatUsage.Describe(ch)
+}
+
+func (e * Schedstat_Exporter) Collect(ch chan<- prometheus.Metric) {
+	e.mu.Lock()
+	defer e.mu.Unlock()
+	e.schedstatUsage.Collect(ch)
+}
+
 func Sar_NewExporter(sarpath string) *S_Sar_Exporter {
 	exporter := &S_Sar_Exporter {
 		sarUsage: prometheus.NewGaugeVec(
@@ -115,7 +227,7 @@ func (e *S_Sar_Exporter) collectMetrics() {
 	}()
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Printf("'sar -q 1 1' execution failed: %v", err)
+		log.Printf("error when executing 'sar -q 1 1: %v", err)
 		return
 	}
 
@@ -132,7 +244,7 @@ func (e *S_Sar_Exporter) collectMetrics() {
 		if i == 2 || i == 3 || i == 7 {
 			value, err := strconv.ParseInt(line, 10, 64)
 			if err != nil {
-				log.Printf("Failed to parse load average value: %v", err)
+				log.Printf("error when parsing load average value: %v", err)
 				return //有一个不对，重来
 			}
 			result = append(result, value)
@@ -140,7 +252,7 @@ func (e *S_Sar_Exporter) collectMetrics() {
 	}
 
 	if len(result) < 3 {
-		log.Printf("Not enough (in 'sar -q 1 1') values found: %v", result)
+		log.Printf("error when parsing load average value: %v", result)
 		return
 	}
 
@@ -198,7 +310,7 @@ func (e *Psi_Exporter) collectMetrics() {
 	}()
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Printf("'cat /proc/pressure/cpu' execution failed: %v", err)
+		log.Printf("error when read /proc/pressure/cpu: %v", err)
 		return
 	}
 
@@ -208,7 +320,7 @@ func (e *Psi_Exporter) collectMetrics() {
 
 	lines := strings.Split(line, "\n")
 	if len(lines) < 2 {
-		log.Printf("Not enough lines in output: %s", line)
+		log.Printf("error when read /proc/pressure/cpu: %v", err)
 		return
 	}
 
@@ -221,20 +333,20 @@ func (e *Psi_Exporter) collectMetrics() {
 		}
 		vIndex := strings.Index(line, "=")
 		if vIndex == -1 {
-			log.Printf("Invalid line format: %s", line)
+			log.Printf("error when read /proc/pressure/cpu: %v", err)
 			return //有一个不对，重来
 		}
 
 		new_line := line[vIndex + 1:]
 		value, err := strconv.ParseFloat(new_line, 64)
 		if err != nil {
-			log.Printf("Invalid value format: %s", new_line)
+			log.Printf("error when read /proc/pressure/cpu: %v", err)
 			return
 		}
 		some = append(some, value)
 	}
 	if len(some) < 4 {
-		log.Printf("Not enough load average values found: %v", some)
+		log.Printf("error when read /proc/pressure/cpu: %v", err)
 		return
 	}
 
@@ -244,20 +356,20 @@ func (e *Psi_Exporter) collectMetrics() {
 		}
 		vIndex := strings.Index(line, "=")
 		if vIndex == -1 {
-			log.Printf("Invalid line format: %s", line)
+			log.Printf("error when read /proc/pressure/cpu: %v", err)
 			return //有一个不对，重来
 		}
 
 		new_line := line[vIndex + 1:]
 		value, err := strconv.ParseFloat(new_line, 64)
 		if err != nil {
-			log.Printf("Invalid value format: %s", new_line)
+			log.Printf("error when read /proc/pressure/cpu: %v", err)
 			return
 		}
 		full = append(full, value)
 	}
 	if len(full) < 4 {
-		log.Printf("Not enough load average values found: %v", some)
+		log.Printf("error when read /proc/pressure/cpu: %v", err)
 		return
 	}
 
@@ -318,12 +430,12 @@ func (e *U_Vmstat_Exporter) collectMetrics() {
 	}()
 	out, err := cmd.StdoutPipe()
 	if err != nil {
-		log.Printf("Error creating StdoutPipe for Cmd: %v", err)
+		log.Printf("error when creating StdoutPipe for Cmd: %v", err)
 		return
 	}
 
 	if err := cmd.Start(); err != nil {
-		log.Printf("Error starting Cmd: %v", err)
+		log.Printf("error when starting Cmd: %v", err)
 		return
 	}
 
@@ -349,7 +461,7 @@ func (e *U_Vmstat_Exporter) collectMetrics() {
 		lines := strings.Fields(line) //分割成数组
 		
 		if len(lines) < 17 {
-			log.Printf("Not enough fields in line: %s", line)
+			log.Printf("error when parse output: %v", err)
 			continue
 		}
 
@@ -362,7 +474,7 @@ func (e *U_Vmstat_Exporter) collectMetrics() {
 
 			value, err := strconv.ParseFloat(lines[index], 64)
 			if err != nil {
-				log.Printf("Failed to parse %s: %v", metric, err)
+				log.Printf("error when parse output: %v", err)
 				continue
 			}
 
@@ -418,7 +530,7 @@ func (e *US_Uptime_Exporter) collectMetrics() {
 		}
 	}()
 	if err != nil {
-		log.Printf("'uptime' execution failed: %v", err)
+		log.Printf("error when 'uptime' execution failed: %v", err)
 		return
 	}
 
@@ -428,7 +540,7 @@ func (e *US_Uptime_Exporter) collectMetrics() {
 	loadAverageIndex := strings.Index(line, "load average:")
 
 	if loadAverageIndex == -1 {
-		log.Printf("Load average not found in output: %s", line)
+		log.Printf("error when Load average not found in output: %s", line)
 		return
 	}
 
@@ -442,7 +554,7 @@ func (e *US_Uptime_Exporter) collectMetrics() {
 		if part != "" {
 			value, err := strconv.ParseFloat(part, 64)
 			if err != nil {
-				log.Printf("Failed to parse load average value: %v", err)
+				log.Printf("error when parsing load average value: %v", err)
 				return //有一个不对，重来
 			}
 			result = append(result, value)
@@ -450,7 +562,7 @@ func (e *US_Uptime_Exporter) collectMetrics() {
 	}
 
 	if len(result) < 3 {
-		log.Printf("Not enough load average values found: %v", result)
+		log.Printf("error when parsing load average value: %v", result)
 		return
 	}
 	e.mu.Lock()
@@ -506,13 +618,13 @@ func (e *U_Mpstat_Exporter) collectMetrics() {
 	}()
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Printf(e.mpstatPath + "-p ALL -o JSON 1 1" + " execution failed: %v", err)
+		log.Printf("error when run command 'sar -P ALL -o JSON 1 1': %v", err)
 		return
 	}
 
 	var data Mpstat_SysStat_Line
 	if err := json.Unmarshal(output, &data); err != nil {
-		log.Printf("JSON unmarshal failed: %v", err)
+		log.Printf("error when unmarshal json data %v", err)
 		return
 	}
 

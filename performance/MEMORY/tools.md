@@ -83,3 +83,84 @@
 ■ 超额使用可用且已配置
 ■ 还有哪些其他系统内存可调参数正在使用中？
 ■ 是否有软件施加的内存限制（资源控制）？
+
+
+perf:
+系统范围内堆栈跟踪的样本页面错误（RSS 增长），直到 Ctrl-C：
+# perf record -e page-faults -a -g
+
+记录 PID 1843 的所有页面错误和堆栈跟踪，持续 60 秒：
+# perf record -e page-faults -c 1 -p 1843 -g -- sleep 60
+
+通过 brk（2） 记录堆增长，直到 Ctrl-C：
+# perf record -e syscalls:sys_enter_brk -a -g
+
+在 NUMA 系统上录制页面迁移
+# perf record -e migrate:mm_migrate_pages -a
+
+对所有 kmem 事件进行计数，每秒打印一次报告：
+# perf stat -e 'kmem:*' -a -I 1000
+
+对所有 vmscan 事件进行计数，每秒打印一份报告：
+# perf stat -e 'vmscan:*' -a -I 1000
+
+计算所有内存压缩事件，每秒打印一次报告：
+# perf stat -e 'compaction:*' -a -I 1000
+
+使用堆栈跟踪跟踪 kswapd 唤醒事件，直到 Ctrl-C：
+# perf record -e vmscan:mm_vmscan_wakeup_kswapd -ag
+
+分析给定命令的内存访问：
+# perf mem record command
+
+总结内存配置文件：
+# perf mem report
+
+
+bpftrace:
+按用户堆栈和进程对 libc malloc（） 请求字节数求和（开销高）：
+#  bpftrace -e 'uprobe:/lib/x86_64-linux-gnu/libc.so.6:malloc {
+    @[ustack, comm] = sum(arg0); }'
+  
+PID 181 的用户堆栈对 libc malloc（） 请求字节数求和 （高开销）
+# bpftrace -e 'uprobe:/lib/x86_64-linux-gnu/libc.so.6:malloc /pid == 181/ {
+    @[ustack] = sum(arg0); 
+}'
+
+将 PID 181 的用户堆栈的 libc malloc（） 请求字节数显示为 2 的幂直方图（高开销）：
+#  bpftrace -e 'uprobe:/lib/x86_64-linux-gnu/libc.so.6:malloc /pid == 181/ 
+{
+    @[ustack] = hist(arg0); 
+}'
+
+按内核堆栈跟踪对内核 kmem 缓存分配字节数求和：
+bpftrace -e 't:kmem:kmem_cache_alloc { @bytes[kstack] = sum(args->bytes_alloc); }'
+
+按代码路径对进程堆扩展 （brk（2）） 进行计数
+#  bpftrace -e 'tracepoint:syscalls:sys_enter_brk { @[ustack, comm] = count(); }'
+
+按进程对页面错误进行计数：
+# bpftrace -e 'software:page-fault:1 { @[comm, pid] = count(); }'
+
+按用户级堆栈跟踪对用户页面错误进行计数
+# bpftrace -e 't:exceptions:page_fault_user { @[ustack, comm] = count(); }'
+按跟踪点对 vmscan作进行计数
+# bpftrace -e 'tracepoint:vmscan:* { @[probe] = count(); }'
+
+按进程计数 swapins：
+# bpftrace -e 'kprobe:swap_readpage { @[comm, pid] = count(); }'
+
+计数页面迁移：
+# bpftrace -e 'tracepoint:migrate:mm_migrate_pages { @ = count(); }'
+
+跟踪压缩事件：
+# bpftrace -e 't:compaction:mm_compaction_begin { time(); }'
+
+在 libc 中列出 USDT 探针：
+# bpftrace -l 'usdt:/lib/x86_64-linux-gnu/libc.so.6:*'
+
+列出内核 kmem 跟踪点：
+# bpftrace -l 't:kmem:*'
+
+列出所有内存子系统 （mm） 跟踪点：
+# bpftrace -l 't:*:mm_*'

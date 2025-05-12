@@ -3,7 +3,7 @@ package memory
 import (
 	//"encoding/json"
 	"bufio"
-	"fmt"
+	//"fmt"
 	"log"
 	"os/exec"
 	"strconv"
@@ -289,7 +289,7 @@ func (e *Sar_Exporter) collectMetrics() {
 	// Parse the output
 	var result []float64
 	lines = lines[len(lines)-3:] //取最后一行
-	fmt.Println(lines[0])
+	//fmt.Println(lines[0])
 	lines_trim := strings.Fields(lines[0])
 	for i, line := range lines_trim {
 		if i == 0 || i == 1 {

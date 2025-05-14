@@ -14,8 +14,6 @@ import(
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-
-
 func main() {
 	mpstatPath := flag.String("mpstat", "/usr/bin/mpstat", "Path to mpstat binary")
 	vmstatPath := flag.String("vmstat", "/usr/bin/vmstat", "Path to vmstat binary")
@@ -28,7 +26,6 @@ func main() {
 	psi_memory_Path := flag.String("psi_memory", "/proc/pressure/memory", "Path to psi memory")
 	freePath := flag.String("free", "/usr/bin/free", "Path to free binary")
 	pid_cpu := flag.Int64("pid_cpu", -1, "The pid you want to get cpu time on '/proc/pid/schedstat'bu count all task on pid process: /proc/pid/task/ppid/schedstat")
-	//isSar_r := flag.Bool("sar_r", false, "Is sar -r")
 
 	flag.Parse()
 

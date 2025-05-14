@@ -141,7 +141,7 @@ func (e *Iostat_Exporter)startCollector() {
 func (e *Iostat_Exporter) collectMetrics() {
 	out, err := os.ReadFile("/proc/diskstats")
 	if err != nil {
-		log.Printf("can not read /proc/diskstats: %v", err)
+		log.Printf("error when read /proc/diskstats: %v", err)
 		return
 	}
 	type diskmetric struct {

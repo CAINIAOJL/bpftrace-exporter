@@ -74,20 +74,20 @@ func (e *Free_Exporter) collectMetrics() {
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Printf("'free -b' execution failed: %v", err)
+		log.Printf("error when 'free -b' execute: %v", err)
 		return
 	}
 
 	lines := strings.Split(string(out), "\n")
 	if len(lines) < 3 {
-		log.Printf("Not enough lines in output: %s", lines)
+		log.Printf("error Not enough lines in output: %s", lines)
 		return
 	}
 
 	DataLine := lines[1]
 	DataLine_trim := strings.Fields(DataLine)
 	if len(DataLine_trim) < 7 {
-		log.Printf("Not enough load average values found: %v", err)
+		log.Printf("error Not enough load average values found: %v", err)
 		return
 	}
 	var cnt = map[string]int {
@@ -101,12 +101,12 @@ func (e *Free_Exporter) collectMetrics() {
 	e.mu.Lock()
 	for metric, index := range cnt {
 		if index >= len(DataLine_trim) {
-			log.Printf("Index %d out of range for metric %s", index, metric)
+			log.Printf("error Index %d out of range for metric %s", index, metric)
 			return
 		}
 		value, err := strconv.ParseFloat(DataLine_trim[cnt[metric]], 64)
 		if err != nil {
-			log.Printf("Failed to parse value %s for metric %s", DataLine_trim[cnt[metric]], metric)
+			log.Printf("error parsing value %s for metric %s", DataLine_trim[cnt[metric]], metric)
 			return
 		}
 
@@ -154,7 +154,7 @@ func (e *Psi_Exporter) collectMetrics() {
 	cmd := exec.Command("cat", e.psipath)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Printf("Command execution failed: %v", err)
+		log.Printf("error when read /proc/pressure/memory: %v", err)
 		return
 	}
 
@@ -164,7 +164,7 @@ func (e *Psi_Exporter) collectMetrics() {
 
 	lines := strings.Split(line, "\n")
 	if len(lines) < 2 {
-		log.Printf("Not enough lines in output: %s", line)
+		log.Printf("error Not enough lines in output: %s", line)
 		return
 	}
 
@@ -190,7 +190,7 @@ func (e *Psi_Exporter) collectMetrics() {
 		some = append(some, value)
 	}
 	if len(some) < 4 {
-		log.Printf("Not enough load average values found: %v", some)
+		log.Printf("error Not enough load average values found: %v", some)
 		return
 	}
 
@@ -213,7 +213,7 @@ func (e *Psi_Exporter) collectMetrics() {
 		full = append(full, value)
 	}
 	if len(full) < 4 {
-		log.Printf("Not enough load average values found: %v", some)
+		log.Printf("error Not enough load average values found: %v", some)
 		return
 	}
 
@@ -305,7 +305,7 @@ func (e *Sar_Exporter) collectMetrics() {
 	}
 
 	if len(result) < 9 {
-		log.Printf("Unexpected number of values from sar command: %d", len(result))
+		log.Printf("error Unexpected number of values from sar command: %d", len(result))
 		return
 	}
 
@@ -349,7 +349,7 @@ func (e *Sar_Exporter) collectMetrics() {
 	}
 
 	if len(result) < 11 {
-		log.Printf("Unexpected number of values from sar command: %d", len(result))
+		log.Printf("error Unexpected number of values from sar command: %d", len(result))
 		return
 	}
 
@@ -401,11 +401,11 @@ func (e *U_Vmstat_Exporter) collectMetrics() {
 	cmd := exec.Command(e.vmstatpath, "-Sm", "1")
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		log.Fatal("Failed to get stdout pipe:", err)
+		log.Fatal("error getting stdout pipe:", err)
 	}
 
 	if err := cmd.Start(); err != nil {
-		log.Fatal("Command failed to start:", err)
+		log.Fatal("error when exec command 'vmstat -Sm 1':", err)
 	}
 	defer cmd.Process.Kill() // 确保退出时清理进程
 
@@ -433,7 +433,7 @@ func (e *U_Vmstat_Exporter) collectMetrics() {
 		// 解析数据行
 		fields := strings.Fields(line)
 		if len(fields) < 6 {
-			log.Printf("Invalid data line: %s", line)
+			log.Printf("error Invalid data line: %s", line)
 			continue
 		}
 
@@ -441,12 +441,12 @@ func (e *U_Vmstat_Exporter) collectMetrics() {
 		e.mu.Lock()
 		for metric, idx := range fieldIndexes {
 			if idx >= len(fields) {
-				log.Printf("Index %d out of range for metric %s", idx, metric)
+				log.Printf("error Index %d out of range for metric %s", idx, metric)
 				return
 			}
 			value, err := strconv.ParseFloat(fields[idx], 64)
 			if err != nil {
-				log.Printf("Failed to parse %s: %v", metric, err)
+				log.Printf("error when parsing %s: %v", metric, err)
 				return
 			}
 			e.memoryUsage.WithLabelValues(metric).Set(value)

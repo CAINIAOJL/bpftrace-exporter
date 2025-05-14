@@ -280,7 +280,7 @@ func (e *Sar_Exporter) collectMetrics() {
 	}()
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Printf("'sar -v 1 1' execution failed: %v", err)
+		log.Printf("error when 'sar -v 1 1' execute: %v", err)
 		return
 	}
 
@@ -297,7 +297,7 @@ func (e *Sar_Exporter) collectMetrics() {
 		if i == 1 || i == 2 || i == 3 || i == 4 {
 			value, err := strconv.ParseInt(line, 10, 64)
 			if err != nil {
-				log.Printf("Failed to parse load average value: %v", err)
+				log.Printf("error when parsing load average value: %v", err)
 				return //有一个不对，重来
 			}
 			result = append(result, value)
@@ -305,7 +305,7 @@ func (e *Sar_Exporter) collectMetrics() {
 	}
 
 	if len(result) < 4 {
-		log.Printf("Not enough (in 'sar -q 1 1') values found: %v", result)
+		log.Printf("error when (in 'sar -q 1 1') values found: %v", result)
 		return
 	}
 

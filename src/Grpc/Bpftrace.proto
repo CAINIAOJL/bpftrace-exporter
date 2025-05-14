@@ -1,0 +1,29 @@
+syntax = "proto3";
+package bpftrace_pb;
+import "google/protobuf/empty.proto";
+message ResponseStatus {
+  bool success = 1;
+  string message = 2; // 可选错误消息
+}
+
+message BpftraceFlags {
+  string path_script = 1;
+  string path_bin = 2;
+  string vars = 3;
+}
+
+message BpftraceDeleteScript {
+  string script = 1;
+}
+
+message BpftraceGetScriptList {
+  repeated BpftraceDeleteScript list = 1;
+}
+
+service BpftraceService {
+  rpc RunScript(BpftraceFlags) returns (ResponseStatus); // 运行脚本
+  rpc DeleteScript(BpftraceDeleteScript) returns (ResponseStatus); // 删除脚本
+  rpc GetScriptList(google.protobuf.Empty) returns (BpftraceGetScriptList); // 获取脚本列表
+}
+
+option go_package = "/proto/";

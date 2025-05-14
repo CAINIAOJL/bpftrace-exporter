@@ -84,8 +84,9 @@ func (e *Sockstat_exporter)collectMetrics() {
 			e.Sockstat_usage.WithLabelValues("tcp", "alloc").Set(alloc)
 			e.Sockstat_usage.WithLabelValues("tcp", "mem").Set(mem)
 			e.mu.Unlock()
-		} else if strings.Contains(line, "UDP") {
+		} else if strings.Contains(line, "UDP:") {
 			//UDP: inuse 9 mem 512
+			//log.Print(line)
 			data := strings.Fields(line)
 			inuse, _ := strconv.ParseFloat(data[2], 64)
 			mem, _ := strconv.ParseFloat(data[4], 64)

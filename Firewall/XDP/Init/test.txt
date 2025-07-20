@@ -1,0 +1,195 @@
+=== RUN   TestXDPDynamicConfig
+    xdp_test.go:213: 第一次初始化配置完成，解析配置测试：
+        
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 222.93.222.124 | port: 11111 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 222.93.222.124 | port: 22222 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 222.93.222.124 | port: 33333 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 223.207.41.215 | port: 11111 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 223.207.41.215 | port: 22222 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 223.207.41.215 | port: 33333 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 247.94.70.231 | port: 12567 | action: 2
+    xdp_test.go:286: [Success] map: map_Lpm_Rule4 | iface: lo | CIDR: 179.227.59.143/20 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 111.52.201.89 | port: 11230 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 111.52.201.89 | port: 12568 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 111.52.201.89 | port: 26665 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 135.107.250.138 | port: 11240 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: FE88:D5C3:81E2:A3AB:70AF:FCC1:9818:46BA | port: 11230 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: FE88:D5C3:81E2:A3AB:70AF:FCC1:9818:46BA | port: 11240 | action: 2
+    xdp_test.go:349: [Success] map: map_Lpm_Rule6 | iface: lo | CIDR: 9BE1:0D18:B5F3:AF71:AC82:B208:2E3C:95D2/64 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 11280 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 15689 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 25056 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19CE:C1EB:71A0:407B:DD97:FC43:C8B4:A2B8 | port: 56201 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 11111 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 22222 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 33333 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 11111 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 22222 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 33333 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 161.93.187.53 | port: 12560 | action: 1
+    xdp_test.go:286: [Success] map: map_Lpm_Rule4 | iface: lo | CIDR: 16.241.137.207/20 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 167.84.79.221 | port: 12540 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 167.84.79.221 | port: 13260 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 167.84.79.221 | port: 13698 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 79.116.134.17 | port: 14789 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: B9CC:C5B3:00B4:53D0:1399:7E93:6A01:8195 | port: 65489 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 29EF:6EFC:05CC:410F:9890:4EA9:83D2:0C71 | port: 12560 | action: 1
+    xdp_test.go:349: [Success] map: map_Lpm_Rule6 | iface: lo | CIDR: 4AA3:6E6A:B5FC:83A6:27BD:22B7:00D9:FCD7/64 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 12501 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 16523 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 10254 | action: 1
+    xdp_test.go:419: [Success] map: map_Tb_Burst_Rate_global | iface: lo | proto: Burst | count: 500
+    xdp_test.go:420: [Success] map: map_Tb_Burst_Rate_global | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:439: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Burst | count: 500
+    xdp_test.go:440: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:455: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Burst | count: 500
+    xdp_test.go:456: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:439: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Burst | count: 500
+    xdp_test.go:440: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:455: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Burst | count: 500
+    xdp_test.go:456: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:286: [Success] map: map_Lpm_Rule4 | iface: ens33 | CIDR: 179.227.59.143/20 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 111.52.201.89 | port: 11230 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 111.52.201.89 | port: 12568 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 111.52.201.89 | port: 26665 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 135.107.250.138 | port: 11240 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 222.93.222.124 | port: 11111 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 222.93.222.124 | port: 22222 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 222.93.222.124 | port: 33333 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 223.207.41.215 | port: 11111 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 223.207.41.215 | port: 22222 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 223.207.41.215 | port: 33333 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 247.94.70.231 | port: 12567 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: FE88:D5C3:81E2:A3AB:70AF:FCC1:9818:46BA | port: 11230 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: FE88:D5C3:81E2:A3AB:70AF:FCC1:9818:46BA | port: 11240 | action: 2
+    xdp_test.go:349: [Success] map: map_Lpm_Rule6 | iface: ens33 | CIDR: 9BE1:0D18:B5F3:AF71:AC82:B208:2E3C:95D2/64 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 11280 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 15689 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 25056 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 19CE:C1EB:71A0:407B:DD97:FC43:C8B4:A2B8 | port: 56201 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 11111 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 22222 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 33333 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 11111 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 22222 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 33333 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 161.93.187.53 | port: 12560 | action: 1
+    xdp_test.go:286: [Success] map: map_Lpm_Rule4 | iface: ens33 | CIDR: 16.241.137.207/20 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 167.84.79.221 | port: 12540 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 167.84.79.221 | port: 13260 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 167.84.79.221 | port: 13698 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: ens33 | IP: 79.116.134.17 | port: 14789 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 29EF:6EFC:05CC:410F:9890:4EA9:83D2:0C71 | port: 12560 | action: 1
+    xdp_test.go:349: [Success] map: map_Lpm_Rule6 | iface: ens33 | CIDR: 4AA3:6E6A:B5FC:83A6:27BD:22B7:00D9:FCD7/64 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 12501 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 16523 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 10254 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: ens33 | IP: B9CC:C5B3:00B4:53D0:1399:7E93:6A01:8195 | port: 65489 | action: 1
+    xdp_test.go:455: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: ens33 | proto: Burst | count: 500
+    xdp_test.go:456: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: ens33 | proto: Rate | count: 1000
+    xdp_test.go:439: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: ens33 | proto: Burst | count: 500
+    xdp_test.go:440: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: ens33 | proto: Rate | count: 1000
+    xdp_test.go:455: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: ens33 | proto: Burst | count: 500
+    xdp_test.go:456: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: ens33 | proto: Rate | count: 1000
+    xdp_test.go:419: [Success] map: map_Tb_Burst_Rate_global | iface: ens33 | proto: Burst | count: 500
+    xdp_test.go:420: [Success] map: map_Tb_Burst_Rate_global | iface: ens33 | proto: Rate | count: 1000
+    xdp_test.go:439: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: ens33 | proto: Burst | count: 500
+    xdp_test.go:440: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: ens33 | proto: Rate | count: 1000
+    xdp_test.go:222: 第二次初始化配置完成，解析配置测试：
+        
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 247.94.70.231 | port: 12567 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 247.94.70.231 | port: 12568 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 247.94.70.231 | port: 15847 | action: 2
+    xdp_test.go:286: [Success] map: map_Lpm_Rule4 | iface: lo | CIDR: 172.28.131.63/20 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 111.52.201.89 | port: 11230 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 113.121.156.152 | port: 11250 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 222.93.222.124 | port: 11111 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 222.93.222.124 | port: 22222 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 222.93.222.124 | port: 44444 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 223.207.41.215 | port: 11111 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 223.207.41.215 | port: 55555 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 223.207.41.215 | port: 33333 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 11280 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: D23E:964E:0F37:63AA:C559:4EF9:2D86:9491 | port: 56321 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 11111 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 44444 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 33333 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 11111 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 11223 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 55555 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: FE88:D5C3:81E2:A3AB:70AF:FCC1:9818:46BA | port: 11230 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: FE88:D5C3:81E2:A3AB:70AF:FCC1:9818:46BA | port: 11240 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: FE88:D5C3:81E2:A3AB:70AF:FCC1:9818:46BA | port: 11250 | action: 2
+    xdp_test.go:349: [Success] map: map_Lpm_Rule6 | iface: lo | CIDR: 8D51:4233:E508:33B7:6FCB:39AF:EABE:9C66/64 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 161.93.187.53 | port: 12560 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 161.93.187.53 | port: 12589 | action: 1
+    xdp_test.go:286: [Success] map: map_Lpm_Rule4 | iface: lo | CIDR: 63.125.141.118/20 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 167.84.79.221 | port: 12540 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 115.194.150.41 | port: 54789 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 29EF:6EFC:05CC:410F:9890:4EA9:83D2:0C71 | port: 12560 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 29EF:6EFC:05CC:410F:9890:4EA9:83D2:0C71 | port: 21325 | action: 1
+    xdp_test.go:349: [Success] map: map_Lpm_Rule6 | iface: lo | CIDR: 239A:255A:D76F:B044:8295:D25C:2042:CDD7/64 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 12501 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 9556:F993:306E:A5A2:58A5:B971:B50C:6F7C | port: 12589 | action: 1
+    xdp_test.go:419: [Success] map: map_Tb_Burst_Rate_global | iface: lo | proto: Burst | count: 500
+    xdp_test.go:420: [Success] map: map_Tb_Burst_Rate_global | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:439: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Burst | count: 500
+    xdp_test.go:440: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:455: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Burst | count: 500
+    xdp_test.go:456: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:439: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Burst | count: 5007
+    xdp_test.go:440: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Rate | count: 100087
+    xdp_test.go:455: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Burst | count: 50015
+    xdp_test.go:456: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Rate | count: 100056
+    xdp_test.go:228: 第三次初始化配置完成，解析配置测试：
+        
+    xdp_test.go:286: [Success] map: map_Lpm_Rule4 | iface: lo | CIDR: 179.227.59.143/20 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 111.52.201.89 | port: 11230 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 111.52.201.89 | port: 12568 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 111.52.201.89 | port: 26665 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 135.107.250.138 | port: 11240 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 222.93.222.124 | port: 11111 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 222.93.222.124 | port: 22222 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 222.93.222.124 | port: 33333 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 223.207.41.215 | port: 11111 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 223.207.41.215 | port: 22222 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 223.207.41.215 | port: 33333 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 247.94.70.231 | port: 12567 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: FE88:D5C3:81E2:A3AB:70AF:FCC1:9818:46BA | port: 11230 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: FE88:D5C3:81E2:A3AB:70AF:FCC1:9818:46BA | port: 11240 | action: 2
+    xdp_test.go:349: [Success] map: map_Lpm_Rule6 | iface: lo | CIDR: 9BE1:0D18:B5F3:AF71:AC82:B208:2E3C:95D2/64 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 11280 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 15689 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: DF7B:4867:D29B:AF14:03DB:B8B9:782C:BE6F | port: 25056 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19CE:C1EB:71A0:407B:DD97:FC43:C8B4:A2B8 | port: 56201 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 11111 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 22222 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 91A6:78FC:A24A:4108:FCAB:6F1A:91FD:90EF | port: 33333 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 11111 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 22222 | action: 2
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 19B6:D301:2F0A:904D:1DB1:8E99:BC18:900B | port: 33333 | action: 2
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 161.93.187.53 | port: 12560 | action: 1
+    xdp_test.go:286: [Success] map: map_Lpm_Rule4 | iface: lo | CIDR: 16.241.137.207/20 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 167.84.79.221 | port: 12540 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 167.84.79.221 | port: 13260 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 167.84.79.221 | port: 13698 | action: 1
+    xdp_test.go:316: [Success] map: map_Rule | iface: lo | IP: 79.116.134.17 | port: 14789 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 29EF:6EFC:05CC:410F:9890:4EA9:83D2:0C71 | port: 12560 | action: 1
+    xdp_test.go:349: [Success] map: map_Lpm_Rule6 | iface: lo | CIDR: 4AA3:6E6A:B5FC:83A6:27BD:22B7:00D9:FCD7/64 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 12501 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 16523 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: 287B:66B8:77DA:536E:D6DC:7F18:ABAF:9C9C | port: 10254 | action: 1
+    xdp_test.go:377: [Success] map: map_Rule6 | iface: lo | IP: B9CC:C5B3:00B4:53D0:1399:7E93:6A01:8195 | port: 65489 | action: 1
+    xdp_test.go:439: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Burst | count: 500
+    xdp_test.go:440: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:455: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Burst | count: 500
+    xdp_test.go:456: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:439: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Burst | count: 500
+    xdp_test.go:440: [Success] map: map_Tb_Rate_Burst_Pre_Ip | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:455: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Burst | count: 500
+    xdp_test.go:456: [Success] map: map_Tb_Rate_Burst_Pre_Ip6 | iface: lo | proto: Rate | count: 1000
+    xdp_test.go:419: [Success] map: map_Tb_Burst_Rate_global | iface: lo | proto: Burst | count: 500
+    xdp_test.go:420: [Success] map: map_Tb_Burst_Rate_global | iface: lo | proto: Rate | count: 1000
+--- PASS: TestXDPDynamicConfig (2.55s)
+PASS
+ok  	github.com/CAINIAOJL/bpftrace-exporter/Firewall/XDP/test_config	2.572s
